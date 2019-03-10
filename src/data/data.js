@@ -85,4 +85,19 @@ const getArrayDate = () => {
   return date;
 }
 
-export const date = getArrayDate();
+const filtersData = [
+  {
+    type: `everything`,
+    checked: true
+  },
+  {
+    type: `future`
+  },
+  {
+    type: `past`
+  }
+];
+
+const cardsData = getArrayDate();
+
+export {filtersData, cardsData};

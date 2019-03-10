@@ -1,43 +1,27 @@
-import makeFilter from './filter-view';
-import makeCard from './card-view';
+import FilterView from './views/filter-view';
+import CardView from './views/card-view';
+import CardEditView from './views/card-edit-view';
 
-const filtersData = [
-  {
-    type: `everything`,
-    checked: true
-  },
-  {
-    type: `future`
-  },
-  {
-    type: `past`
-  }
-];
+import {filtersData, cardsData} from './data/data';
 
-// Make filters
-const filterBlock = document.querySelector(`.trip-filter`);
+const filterContainer = document.querySelector(`.trip-filter`);
+const cardContainer = document.querySelector(`.trip-day__items`);
 
-const filters = filtersData
-  .map((it) => makeFilter(it.type, it.checked))
-  .join(``);
+const filterComponent = new FilterView(filtersData);
+const cardComponent = new CardView(cardsData[0]);
+const cardEditComponent = new CardEditView(cardsData[0]);
 
-filterBlock.insertAdjacentHTML(`beforeend`, filters);
+filterContainer.appendChild(filterComponent.render());
+cardContainer.appendChild(cardComponent.render());
 
-// Make cards
-const cardBlock = document.querySelector(`.trip-day__items`);
-const createCards = (count) => {
-  const cards = new Array(count)
-  .fill(makeCard())
-  .join(``);
+cardComponent.onEdit = () => {
+  cardEditComponent.render();
+  cardContainer.replaceChild(cardEditComponent.element, cardComponent.element);
+  cardComponent.unrender();
+};
 
-  cardBlock.insertAdjacentHTML(`beforeend`, cards);
+cardEditComponent.onSubmit = () => {
+  cardComponent.render();
+  cardContainer.replaceChild(cardComponent.element, cardEditComponent.element);
+  cardEditComponent.unrender();
 }
-
-createCards(7);
-
-filterBlock.querySelectorAll(`input[type=radio]`).forEach((it) => {
-  it.addEventListener(`change`, () => {
-    cardBlock.innerHTML = ``;
-    createCards(Math.trunc((Math.random() * (7 - 0) + 0)));
-  });
-});
