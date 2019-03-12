@@ -4,7 +4,13 @@ class CardView extends AbstractView {
   constructor(data) {
     super();
 
-    this._data = data;
+    this._city = data.city;
+    this._title = data.title;
+    this._type = data.type;
+    this._offers = data.offers;
+    this._time = data.time;
+    this._price = data.price;
+
     this._onEdit = null;
     this._onEditButtonClick = this._onEditButtonClick.bind(this);
   }
@@ -20,32 +26,29 @@ class CardView extends AbstractView {
   get template() {
     return `
     <article class="trip-point">
-      <i class="trip-icon">${this._data.type}</i>
-      <h3 class="trip-point__title">Taxi to Airport</h3>
+      <i class="trip-icon">${this._type}</i>
+      <h3 class="trip-point__title">${this._title} to ${this._city}</h3>
       <p class="trip-point__schedule">
-        <span class="trip-point__timetable">${this._data.time.from}&nbsp;&mdash; ${this._data.time.to}</span>
+        <span class="trip-point__timetable">${this._time.from}&nbsp;&mdash; ${this._time.to}</span>
         <span class="trip-point__duration">1h 30m</span>
       </p>
-      <p class="trip-point__price">&euro;&nbsp;${this._data.price}</p>
+      <p class="trip-point__price">&euro;&nbsp;${this._price}</p>
       <ul class="trip-point__offers">
-      ${this._data.offers.map((it) =>`
+      ${this._offers.map((it) =>`
         <li>
           <button class="trip-point__offer">${it}</button>
         </li>`)
         .join(``)}
       </ul>
-      <button class="trip-edit" type="button">edit</button>
     </article>`;
   }
 
   bind() {
-    this._element.querySelector(`.trip-edit`)
-        .addEventListener(`click`, this._onEditButtonClick);
+    this._element.addEventListener(`click`, this._onEditButtonClick);
   }
 
   unbind() {
-    this._element.querySelector(`.trip-edit`)
-        .removeEventListener(`click`, this._onEditButtonClick);
+    this._element.removeEventListener(`click`, this._onEditButtonClick);
   }
 }
 

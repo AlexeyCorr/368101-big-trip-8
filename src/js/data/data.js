@@ -57,11 +57,13 @@ const getNewArray = (array, count) => {
 
 export const createData = () => {
   const keysOfType = Object.keys(TYPE);
+  const typeName = keysOfType[getRandomInt(keysOfType.length)]
 
   return {
-    type: TYPE[keysOfType[getRandomInt(keysOfType.length)]],
+    title: typeName,
+    type: TYPE[typeName],
     city: CITIES[getRandomInt(CITIES.length)],
-    photo: getRandomPhotos(getRandomInt(MAX_PHOTOS)),
+    photos: getRandomPhotos(getRandomInt(MAX_PHOTOS)),
     offers: getNewArray(OFFERS, MAX_OFFERS),
     price: getRandomInt(MAX_COST, MIN_COST),
     description: getNewArray(SENTENCES, getRandomInt(MAX_SENTENCES, 1)),
