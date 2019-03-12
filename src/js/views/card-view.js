@@ -53,3 +53,4 @@ class CardView extends AbstractView {
 }
 
 export default CardView;
+
