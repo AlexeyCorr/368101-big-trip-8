@@ -1,4 +1,5 @@
 import AbstractView from './../abstract-view';
+import moment from 'moment';
 
 class CardView extends AbstractView {
   constructor(data) {
@@ -30,11 +31,14 @@ class CardView extends AbstractView {
       <h3 class="trip-point__title">${this._title} to ${this._city}</h3>
       <p class="trip-point__schedule">
         <span class="trip-point__timetable">${this._time.from}&nbsp;&mdash; ${this._time.to}</span>
-        <span class="trip-point__duration">1h 30m</span>
+        <span class="trip-point__duration">
+          ${moment(this._time.from, `HH:mm`).hour()}h
+          ${moment(this._time.from, `HH:mm`).minutes()}m
+        </span>
       </p>
       <p class="trip-point__price">&euro;&nbsp;${this._price}</p>
       <ul class="trip-point__offers">
-      ${this._offers.map((it) =>`
+      ${[...this._offers].map((it) =>`
         <li>
           <button class="trip-point__offer">${it}</button>
         </li>`)
@@ -49,6 +53,14 @@ class CardView extends AbstractView {
 
   unbind() {
     this._element.removeEventListener(`click`, this._onEditButtonClick);
+  }
+
+  update(data) {
+    this._type = data.type;
+    this._city = data.city;
+    this._offers = data.offers;
+    this._price = data.price;
+    this._from = data.time.from;
   }
 }
 
