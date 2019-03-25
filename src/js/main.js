@@ -4,20 +4,20 @@ import CardEditView from './views/card-edit-view';
 
 import {filtersData, cardsData} from './data/data';
 
-const filterContainer = document.querySelector(`.trip-filter`);
+
 const cardContainer = document.querySelector(`.trip-day__items`);
 
 const renderFilter = (data) => {
+  const filterContainer = document.querySelector(`.trip-filter`);
   data.forEach((it) => {
-    const filterComponent = new FilterView(it);
-    filterContainer.appendChild(filterComponent.render());
+    filterContainer.appendChild(new FilterView(it).render());
   });
 };
 
 const renderCards = (data) => {
-  data.forEach((it) => {
-    const cardComponent = new CardView(it);
-    const cardEditComponent = new CardEditView(it);
+  data.forEach((point) => {
+    const cardComponent = new CardView(point);
+    const cardEditComponent = new CardEditView(point);
     cardContainer.appendChild(cardComponent.render());
 
     cardComponent.onEdit = () => {
@@ -26,7 +26,15 @@ const renderCards = (data) => {
       cardComponent.unrender();
     };
 
-    cardEditComponent.onSubmit = () => {
+    cardEditComponent.onSubmit = (newData) => {
+      console.log(point)
+      point.type = newData.type;
+      point.city = newData.city;
+      point.time.from = newData.time.from;
+      point.price = newData.price;
+      point.offers = newData.offers;
+
+      cardComponent.update(point);
       cardComponent.render();
       cardContainer.replaceChild(cardComponent.element, cardEditComponent.element);
       cardEditComponent.unrender();

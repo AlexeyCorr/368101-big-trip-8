@@ -10,18 +10,20 @@ class FilterView extends AbstractView {
 
   get template() {
     return `
-    <input
-    type="radio"
-    id="filter-${this._type}"
-    name="filter"
-    value="${this._type}"
-    ${this._checked ? `checked` : ``}
-  >
-  <label
-    class="trip-filter__item"
-    for="filter-${this._type}">
-      ${this._type}
-  </label>`;
+    <div>
+      <input
+      type="radio"
+      id="filter-${this._type}"
+      name="filter"
+      value="${this._type}"
+      ${this._checked ? `checked` : ``}
+    >
+    <label
+      class="trip-filter__item"
+      for="filter-${this._type}">
+        ${this._type}
+    </label>
+  </div>`;
   }
 }
 

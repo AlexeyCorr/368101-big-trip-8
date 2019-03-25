@@ -6,17 +6,17 @@ const MAX_PHOTOS = 5;
 const MAX_SENTENCES = 3;
 const START_DATE = new Date(2019, 1, 1);
 const END_DATE = new Date(2020, 1, 1);
-const TYPE = {
-  'Taxi': `🚕`,
-  'Bus': `🚌`,
-  'Train': `🚂`,
-  'Ship': `🛳️`,
-  'Transport': `🚊`,
-  'Drive': `🚗`,
-  'Flight': `✈️`,
-  'Sightseeing': `🏛️`,
-  'Check-in': `🏨`,
-  'Restaurant': `🍴`,
+const TYPES = {
+  'taxi': `🚕`,
+  'bus': `🚌`,
+  'train': `🚂`,
+  'ship': `🛳️`,
+  'transport': `🚊`,
+  'drive': `🚗`,
+  'flight': `✈️`,
+  'restaurant': `🍴`,
+  'check-in': `🏨`,
+  'sightseeing': `🏛️`,
 };
 const OFFERS = [`Add luggage`, `Switch to comfort class`, `Add meal`, `Choose seats`];
 const SENTENCES = [
@@ -56,15 +56,15 @@ const getNewArray = (array, count) => {
 };
 
 export const createData = () => {
-  const keysOfType = Object.keys(TYPE);
+  const keysOfType = Object.keys(TYPES);
   const typeName = keysOfType[getRandomInt(keysOfType.length)]
 
   return {
     title: typeName,
-    type: TYPE[typeName],
+    type: TYPES[typeName],
     city: CITIES[getRandomInt(CITIES.length)],
     photos: getRandomPhotos(getRandomInt(MAX_PHOTOS)),
-    offers: getNewArray(OFFERS, MAX_OFFERS),
+    offers: new Set(getNewArray(OFFERS, MAX_OFFERS)),
     price: getRandomInt(MAX_COST, MIN_COST),
     description: getNewArray(SENTENCES, getRandomInt(MAX_SENTENCES, 1)),
     date: {
@@ -102,4 +102,4 @@ const filtersData = [
 
 const cardsData = getArrayDate();
 
-export {filtersData, cardsData};
+export {filtersData, cardsData, TYPES};
