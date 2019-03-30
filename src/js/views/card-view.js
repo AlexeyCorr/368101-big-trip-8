@@ -48,11 +48,13 @@ class CardView extends AbstractView {
   }
 
   bind() {
-    this._element.addEventListener(`click`, this._onEditButtonClick);
+    this._element
+      .addEventListener(`click`, this._onEditButtonClick);
   }
 
   unbind() {
-    this._element.removeEventListener(`click`, this._onEditButtonClick);
+    this._element
+      .removeEventListener(`click`, this._onEditButtonClick);
   }
 
   update(data) {

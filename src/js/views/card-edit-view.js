@@ -19,11 +19,13 @@ class CardEditView extends AbstractView {
     this._state.isFavorite = false;
 
     this._onSubmitButtonClick = this._onSubmitButtonClick.bind(this);
+    this._onDeleteButtonClick = this._onDeleteButtonClick.bind(this);
     this._onSelectTravel = this._onSelectTravel.bind(this);
     this._onChangeFavorite = this._onChangeFavorite.bind(this);
     this._onChangeTime = this._onChangeTime.bind(this);
 
     this._onSubmit = null;
+    this._onDelete = null;
   }
 
   _processForm(formData) {
@@ -42,11 +44,8 @@ class CardEditView extends AbstractView {
     const cardEditView = CardEditView.createMapper(entry);
     for (const pair of formData.entries()) {
       const [property, value] = pair;
-      console.log(pair);
       cardEditView[property] && cardEditView[property](value);
     }
-
-    console.log(entry);
 
     return entry;
   }
@@ -66,6 +65,12 @@ class CardEditView extends AbstractView {
     typeof this._onSubmit === `function` && this._onSubmit(newData);
 
     this.update(newData);
+  }
+
+  _onDeleteButtonClick(evt) {
+    evt.preventDefault();
+
+    typeof this._onDelete === `function` && this._onDelete();
   }
 
   _onSelectTravel(evt) {
@@ -93,6 +98,10 @@ class CardEditView extends AbstractView {
 
   set onSubmit(fn) {
     this._onSubmit = fn;
+  }
+
+  set onDelete(fn) {
+    this._onDelete = fn;
   }
 
   get template() {
@@ -144,7 +153,7 @@ class CardEditView extends AbstractView {
 
           <div class="point__buttons">
             <button class="point__button point__button--save" type="submit">Save</button>
-            <button class="point__button" type="reset">Delete</button>
+            <button class="point__button point__button--delete" type="reset">Delete</button>
           </div>
 
           <div class="paint__favorite-wrap">
@@ -185,6 +194,8 @@ class CardEditView extends AbstractView {
   bind() {
     this._element.querySelector(`.point__form`)
         .addEventListener(`submit`, this._onSubmitButtonClick);
+    this._element.querySelector(`.point__button--delete`)
+        .addEventListener(`click`, this._onDeleteButtonClick);
     this._element.querySelector(`.travel-way__select-group`)
         .addEventListener(`change`, this._onSelectTravel);
     this._element.querySelector(`.point__favorite-input`)
@@ -196,6 +207,8 @@ class CardEditView extends AbstractView {
   unbind() {
     this._element.querySelector(`.point__form`)
         .removeEventListener(`submit`, this._onSubmitButtonClick);
+    this._element.querySelector(`.point__button--delete`)
+        .removeEventListener(`click`, this._onDeleteButtonClick);
     this._element.querySelector(`.travel-way__select-group`)
         .removeEventListener(`change`, this._onSelectTravel);
     this._element.querySelector(`.point__favorite-input`)

@@ -67,6 +67,8 @@ export const createData = () => {
     offers: new Set(getNewArray(OFFERS, MAX_OFFERS)),
     price: getRandomInt(MAX_COST, MIN_COST),
     description: getNewArray(SENTENCES, getRandomInt(MAX_SENTENCES, 1)),
+    dataStart: Date.now(),
+    dataEnd: Date.now() - 24 * 100000,
     date: {
       day: START_DATE.getDay(),
       month: START_DATE.getMonth()
